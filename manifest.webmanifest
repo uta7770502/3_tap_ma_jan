@@ -1,7 +1,7 @@
 {
-  "name": "3タップ ルールズ - ゲーム版",
+  "name": "3タップルールズ（ゲーム版）",
   "short_name": "3タップルール",
-  "start_url": "./",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f0f10",
   "theme_color": "#111111",
