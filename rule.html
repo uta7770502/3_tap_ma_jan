@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ルール詳細 - 3タップルールズ（ゲーム版）</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html">3タップルールズ<span>ゲーム版</span></a>
+    <nav class="topnav">
+      <a href="./rules.html">ルール</a>
+      <a href="./favorites.html">お気に入り</a>
+      <a href="./check_categories.html">統一チェック</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="row row-between row-wrap">
+        <div>
+          <div id="rule-meta" class="muted small"></div>
+          <h1 id="rule-title" class="h1">loading...</h1>
+        </div>
+        <div class="row row-wrap">
+          <button class="btn" id="addFavoriteBtn">☆ お気に入り</button>
+          <button class="btn primary" id="shareBtn">共有</button>
+        </div>
+      </div>
+
+      <div id="rule-content" class="content"></div>
+
+      <div class="row row-wrap" style="margin-top:14px;">
+        <a class="btn ghost" href="./rules.html">← 一覧に戻る</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="status" class="muted small">loading...</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
