@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ゲーム/カテゴリ 統一チェック</title>
+  <style>
+    body { font-family: sans-serif; background: #f9fff9; padding: 20px; }
+    pre { background: #fff; padding: 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); white-space: pre-wrap; }
+    .err { color: #b00020; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>📋 ゲーム/カテゴリ 統一チェック</h1>
+  <div id="result">読み込み中...</div>
+
+  <script>
+    // ✅ 汎用 normalize（必要に応じて同義語を追加）
+    const normalize = (s = "") =>
+      String(s)
+        .toLowerCase()
+        .replace(/\s|　/g, "")
+        .replace(/[－―—–]/g, "-")
+        .trim();
+
+    (async () => {
+      const result = document.getElementById("result");
+      try {
+        const res = await fetch("rules.json");
+        const rules = await res.json();
+
+        const gameMap = {};
+        const categoryMap = {}; // gameNorm -> { catNorm -> Set(originalCats) }
+        const bad = [];
+
+        for (const r of rules) {
+          const rawGame = (r.game || "").trim();
+          const rawCat  = (r.category || "").trim();
+          if (!rawGame) bad.push(`id=${r.id} に game がありません`);
+          if (!rawCat)  bad.push(`id=${r.id} に category がありません`);
+
+          const gNorm = normalize(rawGame);
+          const cNorm = normalize(rawCat);
+
+          if (rawGame) {
+            if (!gameMap[gNorm]) gameMap[gNorm] = new Set();
+            gameMap[gNorm].add(rawGame);
+          }
+
+          if (rawGame && rawCat) {
+            if (!categoryMap[gNorm]) categoryMap[gNorm] = {};
+            if (!categoryMap[gNorm][cNorm]) categoryMap[gNorm][cNorm] = new Set();
+            categoryMap[gNorm][cNorm].add(rawCat);
+          }
+        }
+
+        let out = "";
+
+        if (bad.length) {
+          out += "⚠️ 欠損チェック\n";
+          out += bad.map(x => `- ${x}`).join("\n");
+          out += "\n\n";
+        }
+
+        out += "✅ ゲーム名 統一チェック\n";
+        for (const [gNorm, originals] of Object.entries(gameMap)) {
+          out += `・統一後: ${gNorm}\n`;
+          out += `　┗ 原文: ${Array.from(originals).join(", ")}\n`;
+        }
+        out += "\n";
+
+        out += "✅ カテゴリ 統一チェック（ゲーム別）\n";
+        for (const [gNorm, cats] of Object.entries(categoryMap)) {
+          out += `\n【${gNorm}】\n`;
+          for (const [cNorm, originals] of Object.entries(cats)) {
+            out += `・統一後: ${cNorm}\n`;
+            out += `　┗ 原文: ${Array.from(originals).join(", ")}\n`;
+          }
+        }
+
+        result.innerHTML = `<pre>${out}</pre>`;
+      } catch (e) {
+        result.innerHTML = `<p class="err">rules.json を読み込めませんでした。</p>`;
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>
