@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>お気に入り - 3タップルールズ（ゲーム版）</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html">3タップルールズ<span>ゲーム版</span></a>
+    <nav class="topnav">
+      <a href="./rules.html">ルール</a>
+      <a class="active" href="./favorites.html">お気に入り</a>
+      <a href="./check_categories.html">統一チェック</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h1 class="h1">お気に入り</h1>
+      <p class="muted">端末のローカル保存（localStorage）です。</p>
+      <div class="row row-wrap">
+        <button class="btn" id="btnClearFav">お気に入りを全削除</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div id="favorites-list" class="list"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="status" class="muted small">loading...</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
